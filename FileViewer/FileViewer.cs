@@ -8,13 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using BlueprintIT.Shell;
+using BlueprintIT.Controls;
 
 namespace BlueprintIT.FileViewer
 {
   public partial class FileViewer : Form
   {
     private string path;
-    private IDictionary<FileDetails, TabPage> tabs = new Dictionary<FileDetails, TabPage>();
+    private IDictionary<FileDetails, BpTabPage> tabs = new Dictionary<FileDetails, BpTabPage>();
 
     public FileViewer(string path)
     {
@@ -64,8 +65,8 @@ namespace BlueprintIT.FileViewer
     {
       if (tabs.ContainsKey(file))
       {
-        TabPage page = tabs[file];
-        viewers.TabPages.Remove(page);
+        BpTabPage page = tabs[file];
+        viewers.Controls.Remove(page);
       }
       foreach (ListViewItem item in listView.Items)
       {
@@ -120,10 +121,11 @@ namespace BlueprintIT.FileViewer
       else
       {
         Viewer viewer = Viewer.CreateViewer(file);
-        TabPage newpage = new TabPage(viewer.Title);
+        BpTabPage newpage = new BpTabPage();
+        newpage.Text = viewer.Title;
         newpage.ImageIndex = item.ImageIndex;
         tabs[file] = newpage;
-        viewers.TabPages.Add(newpage);
+        viewers.Controls.Add(newpage);
         viewers.SelectedTab = newpage;
         newpage.Controls.Add(viewer);
         viewer.Dock = DockStyle.Fill;
@@ -179,17 +181,15 @@ namespace BlueprintIT.FileViewer
       }
     }
 
-    private void viewers_TabCloseClick(TabCloseClickEventArgs e)
+    private void ViewerClosed(object sender, TabEventArgs e)
     {
-      TabPage page = viewers.TabPages[e.Index];
-      viewers.TabPages.Remove(page);
       FileDetails file = null;
-      foreach (KeyValuePair<FileDetails, TabPage> kvp in tabs)
+      viewers.Controls.Remove(e.TabPage);
+      foreach (KeyValuePair<FileDetails, BpTabPage> kvp in tabs)
       {
-        if (kvp.Value == page)
+        if (kvp.Value == e.TabPage)
         {
           file = kvp.Key;
-          break;
         }
       }
       if (file != null)

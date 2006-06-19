@@ -103,15 +103,9 @@ namespace BlueprintIT.FileViewer
       {
         if (kvp.Value.CanDisplayFile(file))
         {
-          try
-          {
-            Viewer viewer = kvp.Value.CreateViewer();
-            viewer.File = file;
-            return viewer;
-          }
-          catch (Exception)
-          {
-          }
+          Viewer viewer = kvp.Value.CreateViewer();
+          viewer.File = file;
+          return viewer;
         }
       }
       return null;

@@ -13,6 +13,11 @@ namespace BlueprintIT.FileViewer
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
+      if (fileClass != null)
+      {
+        webBrowser.Stop();
+        FileLoaded(null, null);
+      }
       if (disposing && (components != null))
       {
         components.Dispose();
@@ -39,6 +44,7 @@ namespace BlueprintIT.FileViewer
       this.webBrowser.Name = "webBrowser";
       this.webBrowser.Size = new System.Drawing.Size(150, 150);
       this.webBrowser.TabIndex = 0;
+      this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.FileLoaded);
       // 
       // GenericViewer
       // 

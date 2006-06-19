@@ -1,3 +1,4 @@
+using BlueprintIT.Controls;
 namespace BlueprintIT.FileViewer
 {
   partial class FileViewer
@@ -42,9 +43,9 @@ namespace BlueprintIT.FileViewer
       this.iconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.listToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.detailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.viewers = new ClosableTabControl();
       this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
       this.fileWatcher = new System.IO.FileSystemWatcher();
+      this.viewers = new BlueprintIT.Controls.BpTabControl();
       splitContainer = new System.Windows.Forms.SplitContainer();
       nameHeader = new System.Windows.Forms.ColumnHeader();
       typeHeader = new System.Windows.Forms.ColumnHeader();
@@ -178,22 +179,6 @@ namespace BlueprintIT.FileViewer
       this.detailsToolStripMenuItem.Text = "Details";
       this.detailsToolStripMenuItem.Click += new System.EventHandler(this.detailsToolStripMenuItem_Click);
       // 
-      // viewers
-      // 
-      this.viewers.CloseButtons = true;
-      this.viewers.CloseImage = global::BlueprintIT.FileViewer.Properties.Resources.close;
-      this.viewers.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.viewers.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-      this.viewers.ItemSize = new System.Drawing.Size(160, 18);
-      this.viewers.Location = new System.Drawing.Point(0, 0);
-      this.viewers.Multiline = true;
-      this.viewers.Name = "viewers";
-      this.viewers.SelectedIndex = 0;
-      this.viewers.Size = new System.Drawing.Size(466, 527);
-      this.viewers.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-      this.viewers.TabIndex = 0;
-      this.viewers.TabCloseClick += new TabCloseClickEventHandler(this.viewers_TabCloseClick);
-      // 
       // folderBrowser
       // 
       this.folderBrowser.ShowNewFolderButton = false;
@@ -206,14 +191,28 @@ namespace BlueprintIT.FileViewer
       this.fileWatcher.Deleted += new System.IO.FileSystemEventHandler(this.FileDeleted);
       this.fileWatcher.Renamed += new System.IO.RenamedEventHandler(this.FileRenamed);
       // 
-      // PaperViewer
+      // viewers
+      // 
+      this.viewers.BackColor = System.Drawing.SystemColors.Control;
+      this.viewers.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.viewers.ImageList = null;
+      this.viewers.Location = new System.Drawing.Point(0, 0);
+      this.viewers.Name = "viewers";
+      this.viewers.SelectedIndex = -1;
+      this.viewers.SelectedTab = null;
+      this.viewers.Size = new System.Drawing.Size(466, 527);
+      this.viewers.TabCloseStyle = BlueprintIT.Controls.TabCloseStyle.SelectedAndHover;
+      this.viewers.TabIndex = 0;
+      this.viewers.TabClosed += new BlueprintIT.Controls.TabEventHandler(this.ViewerClosed);
+      // 
+      // FileViewer
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(712, 527);
       this.Controls.Add(splitContainer);
       this.MainMenuStrip = this.mainMenu;
-      this.Name = "PaperViewer";
+      this.Name = "FileViewer";
       this.Text = "Paper Viewer";
       splitContainer.Panel1.ResumeLayout(false);
       splitContainer.Panel1.PerformLayout();
@@ -240,7 +239,7 @@ namespace BlueprintIT.FileViewer
     private System.Windows.Forms.ToolStripMenuItem iconsToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem detailsToolStripMenuItem;
-    private ClosableTabControl viewers;
+    private BpTabControl viewers;
 
   }
 }
