@@ -81,15 +81,27 @@ namespace BlueprintIT.FileViewer
       if (fileClass == null)
         return;
 
-      if (browserFlags == null)
-        fileClass.DeleteValue("BrowserFlags");
-      else
-        fileClass.SetValue("BrowserFlags", browserFlags);
+      try
+      {
+        if (browserFlags == null)
+          fileClass.DeleteValue("BrowserFlags");
+        else
+          fileClass.SetValue("BrowserFlags", browserFlags);
+      }
+      catch
+      {
+      }
 
-      if (editFlags == null)
-        fileClass.DeleteValue("EditFlags");
-      else
-        fileClass.SetValue("EditFlags", editFlags);
+      try
+      {
+        if (editFlags == null)
+          fileClass.DeleteValue("EditFlags");
+        else
+          fileClass.SetValue("EditFlags", editFlags);
+      }
+      catch
+      {
+      }
 
       fileClass = null;
     }

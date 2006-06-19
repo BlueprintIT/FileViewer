@@ -43,9 +43,9 @@ namespace BlueprintIT.FileViewer
       this.iconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.listToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.detailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.viewers = new BlueprintIT.Controls.BpTabControl();
       this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
       this.fileWatcher = new System.IO.FileSystemWatcher();
-      this.viewers = new BlueprintIT.Controls.BpTabControl();
       splitContainer = new System.Windows.Forms.SplitContainer();
       nameHeader = new System.Windows.Forms.ColumnHeader();
       typeHeader = new System.Windows.Forms.ColumnHeader();
@@ -179,18 +179,6 @@ namespace BlueprintIT.FileViewer
       this.detailsToolStripMenuItem.Text = "Details";
       this.detailsToolStripMenuItem.Click += new System.EventHandler(this.detailsToolStripMenuItem_Click);
       // 
-      // folderBrowser
-      // 
-      this.folderBrowser.ShowNewFolderButton = false;
-      // 
-      // fileWatcher
-      // 
-      this.fileWatcher.EnableRaisingEvents = true;
-      this.fileWatcher.SynchronizingObject = this;
-      this.fileWatcher.Created += new System.IO.FileSystemEventHandler(this.FileAdded);
-      this.fileWatcher.Deleted += new System.IO.FileSystemEventHandler(this.FileDeleted);
-      this.fileWatcher.Renamed += new System.IO.RenamedEventHandler(this.FileRenamed);
-      // 
       // viewers
       // 
       this.viewers.BackColor = System.Drawing.SystemColors.Control;
@@ -205,6 +193,18 @@ namespace BlueprintIT.FileViewer
       this.viewers.TabIndex = 0;
       this.viewers.TabClosed += new BlueprintIT.Controls.TabEventHandler(this.ViewerClosed);
       // 
+      // folderBrowser
+      // 
+      this.folderBrowser.ShowNewFolderButton = false;
+      // 
+      // fileWatcher
+      // 
+      this.fileWatcher.EnableRaisingEvents = true;
+      this.fileWatcher.SynchronizingObject = this;
+      this.fileWatcher.Created += new System.IO.FileSystemEventHandler(this.FileAdded);
+      this.fileWatcher.Deleted += new System.IO.FileSystemEventHandler(this.FileDeleted);
+      this.fileWatcher.Renamed += new System.IO.RenamedEventHandler(this.FileRenamed);
+      // 
       // FileViewer
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,7 +213,7 @@ namespace BlueprintIT.FileViewer
       this.Controls.Add(splitContainer);
       this.MainMenuStrip = this.mainMenu;
       this.Name = "FileViewer";
-      this.Text = "Paper Viewer";
+      this.Text = "File Viewer";
       splitContainer.Panel1.ResumeLayout(false);
       splitContainer.Panel1.PerformLayout();
       splitContainer.Panel2.ResumeLayout(false);
