@@ -85,6 +85,20 @@ namespace BlueprintIT.FileViewer
       new ImageViewerFactory();
     }
 
+    public static bool CanView(FileDetails file)
+    {
+      foreach (IViewerFactory factory in factories)
+      {
+        if (factory.Enabled)
+        {
+          int priority = factory.GetExtensionPriority(file.Extension);
+          if (priority >= 0)
+            return true;
+        }
+      }
+      return false;
+    }
+
     public static Viewer CreateViewer(FileDetails file)
     {
       IDictionary<int, IViewerFactory> priorities = new SortedDictionary<int, IViewerFactory>();

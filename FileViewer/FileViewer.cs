@@ -121,14 +121,21 @@ namespace BlueprintIT.FileViewer
       else
       {
         Viewer viewer = Viewer.CreateViewer(file);
-        BpTabPage newpage = new BpTabPage();
-        newpage.Text = viewer.Title;
-        newpage.ImageIndex = item.ImageIndex;
-        tabs[file] = newpage;
-        viewers.Controls.Add(newpage);
-        viewers.SelectedTab = newpage;
-        newpage.Controls.Add(viewer);
-        viewer.Dock = DockStyle.Fill;
+        if (viewer != null)
+        {
+          BpTabPage newpage = new BpTabPage();
+          newpage.Text = viewer.Title;
+          newpage.ImageIndex = item.ImageIndex;
+          tabs[file] = newpage;
+          viewers.Controls.Add(newpage);
+          viewers.SelectedTab = newpage;
+          newpage.Controls.Add(viewer);
+          viewer.Dock = DockStyle.Fill;
+        }
+        else
+        {
+          MessageBox.Show("No viewer capable of displaying this file is included.", "Cannot view file", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
       }
     }
 

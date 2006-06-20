@@ -71,6 +71,8 @@ namespace BlueprintIT.FileViewer
             flags += 65536;
             fileClass.SetValue("EditFlags", flags);
           }
+
+          fileClass.Flush();
         }
       }
       webBrowser.Navigate(new Uri(file.Path));
@@ -103,6 +105,14 @@ namespace BlueprintIT.FileViewer
       {
       }
 
+      try
+      {
+        fileClass.Close();
+      }
+      catch
+      {
+      }
+
       fileClass = null;
     }
   }
@@ -124,11 +134,102 @@ namespace BlueprintIT.FileViewer
 
     public int GetExtensionPriority(string extension)
     {
+      if ((extension == "ADE") ||
+          (extension == "ADP") ||
+          (extension == "APP") ||
+          (extension == "ASP") ||
+          (extension == "BAS") ||
+          (extension == "BAT") ||
+          (extension == "CER") ||
+          (extension == "CHM") ||
+          (extension == "CMD") ||
+          (extension == "COM") ||
+          (extension == "CPL") ||
+          (extension == "CRT") ||
+          (extension == "CSH") ||
+          (extension == "DLL") ||
+          (extension == "EXE") ||
+          (extension == "FXP") ||
+          (extension == "HLP") ||
+          (extension == "HTA") ||
+          (extension == "INF") ||
+          (extension == "INS") ||
+          (extension == "ISP") ||
+          (extension == "ITS") ||
+          (extension == "JS") ||
+          (extension == "JSE") ||
+          (extension == "KSH") ||
+          (extension == "MAD") ||
+          (extension == "MAF") ||
+          (extension == "MAG") ||
+          (extension == "MAM") ||
+          (extension == "MAQ") ||
+          (extension == "MAR") ||
+          (extension == "MAS") ||
+          (extension == "MAT") ||
+          (extension == "MAU") ||
+          (extension == "MAV") ||
+          (extension == "MAW") ||
+          (extension == "MDA") ||
+          (extension == "MDB") ||
+          (extension == "MDE") ||
+          (extension == "MDT") ||
+          (extension == "MDW") ||
+          (extension == "MDZ") ||
+          (extension == "MSC") ||
+          (extension == "MSI") ||
+          (extension == "MSP") ||
+          (extension == "MST") ||
+          (extension == "OPS") ||
+          (extension == "PCD") ||
+          (extension == "PIF") ||
+          (extension == "PRF") ||
+          (extension == "PRG") ||
+          (extension == "PST") ||
+          (extension == "REG") ||
+          (extension == "SCF") ||
+          (extension == "SCR") ||
+          (extension == "SCT") ||
+          (extension == "SHB") ||
+          (extension == "SHS") ||
+          (extension == "TMP") ||
+          (extension == "URL") ||
+          (extension == "VB") ||
+          (extension == "VBE") ||
+          (extension == "VBS") ||
+          (extension == "VSMACROS") ||
+          (extension == "VSS") ||
+          (extension == "VST") ||
+          (extension == "VSW") ||
+          (extension == "WS") ||
+          (extension == "WSC") ||
+          (extension == "WSF") ||
+          (extension == "WSH"))
+        return -1;
+
       if ((extension == "HTML") ||
           (extension == "HTM"))
         return 100;
 
-      return 0;
+      RegistryKey key = Registry.ClassesRoot.OpenSubKey("." + extension);
+      if (key != null)
+      {
+        string classname = key.GetValue(null).ToString();
+        key = Registry.ClassesRoot.OpenSubKey(classname+"\\CLSID", true);
+        if (key != null)
+        {
+          string clsid = (string)key.GetValue(null);
+          if (clsid != null)
+          {
+            key = Registry.ClassesRoot.OpenSubKey("CLSID\\" + clsid);
+            if (key != null)
+            {
+              return 0;
+            }
+          }
+        }
+      }
+      return -1;
     }
 
     public bool CanDisplayFile(FileDetails file)
